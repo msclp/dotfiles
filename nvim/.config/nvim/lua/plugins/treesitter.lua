@@ -15,10 +15,13 @@ return {
           "markdown_inline",
 
           "cpp",
+          "dockerfile",
+          "editorconfig",
           "html",
           "javascript",
           "tsx",
           "typescript",
+          "git_config", "gitcommit", "git_rebase", "gitignore", "gitattributes",
         },
         auto_install = false,
         highlight = {

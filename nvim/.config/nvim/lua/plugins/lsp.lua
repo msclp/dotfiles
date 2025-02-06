@@ -1,7 +1,11 @@
 local servers = {
   clangd = {},
+  dockerls = {},
+  docker_compose_language_service = {},
   lua_ls = {},
+  tailwindcss = {},
   vtsls = {},
+  yamlls = {},
 }
 
 return {
@@ -33,7 +37,6 @@ return {
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "saghen/blink.cmp",
-      "folke/lazydev.nvim",
     },
     opts = {
       servers = servers,
