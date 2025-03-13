@@ -1,0 +1,107 @@
+[core]
+  editor = nvim
+  pager = delta
+
+[init]
+  defaultBranch = main
+
+[user]
+  useConfigOnly = true
+
+[commit]
+  verbose = true
+  gpgSign = true
+
+[tag]
+  gpgSign = true
+  sort = version:refname
+
+[push]
+  ; default = current
+  autoSetupRemote = true
+  followTags = true
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[pull]
+  rebase = true
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[alias]
+  identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; :"
+  lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+  tl = "for-each-ref refs/tags --sort=-creatordate --format=\"%(refname:short)\" --count=1"
+  clone-for-worktrees = "!f() { \
+    if [ \"$#\" -eq 0 ]; then \
+      echo 'Usage: git clone-for-worktrees <repo-url> [directory]'; exit 1; \
+    fi; \
+    repo=\"$1\"; shift; \
+    if [ -z \"$1\" ]; then \
+      dir=$(basename \"$repo\"); dir=${dir%.git}; \
+    else \
+      dir=\"$1\"; shift; \
+    fi; \
+    if [ \"$dir\" != \".\" ]; then \
+      mkdir \"$dir\" && cd \"$dir\"; \
+    fi; \
+    echo \"Cloning bare repository...\" && \
+    git clone --bare -c remote.origin.fetch='+refs/heads/*:refs/remotes/origin/*' \"$repo\" .bare && \
+    echo 'gitdir: ./.bare' > .git && \
+    echo \"Fetching branches...\" && \
+    git --git-dir=.bare fetch origin; \
+  }; f"
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  dark = true
+
+[merge]
+  conflictstyle = zdiff3
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[color]
+  ui = auto
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+
+[branch]
+  sort = -committerdate
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[worktree]
+  guessRemote = true
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+
+[help]
+  autocorrect = prompt
+
+[column]
+  ui = auto
+
+[include]
+  path = ~/.gitconfig.local
